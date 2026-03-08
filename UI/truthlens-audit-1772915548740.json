@@ -1,0 +1,70 @@
+{
+  "sentences": [
+    {
+      "sentence": "Albert Einstein was born in 1879 in Germany.",
+      "status": "VERIFIED",
+      "reason": "Albert Einstein was indeed born in Ulm, Germany, in 1879.",
+      "source_url": "https://www.nobelprize.org/prizes/physics/1921/einstein/biographical/",
+      "confidence": 100,
+      "hallucination_type": "NONE"
+    },
+    {
+      "sentence": "He won the Nobel Prize in 1921 for his Theory of Relativity.",
+      "status": "UNCERTAIN",
+      "reason": "Einstein won the 1921 Nobel Prize in Physics, but it was specifically awarded for his discovery of the law of the photoelectric effect, not explicitly for the Theory of Relativity.",
+      "source_url": "https://www.nobelprize.org/prizes/physics/1921/einstein/facts/",
+      "confidence": 95,
+      "hallucination_type": "CONTEXT_DISTORTION"
+    },
+    {
+      "sentence": "Einstein developed the famous equation E=mc2.",
+      "status": "VERIFIED",
+      "reason": "The mass-energy equivalence formula, E=mc², is one of Einstein's most famous contributions.",
+      "source_url": "https://www.britannica.com/science/mass-energy-equivalence",
+      "confidence": 100,
+      "hallucination_type": "NONE"
+    },
+    {
+      "sentence": "He moved to the United States in 1933 and worked at Princeton University.",
+      "status": "VERIFIED",
+      "reason": "Einstein emigrated to the US in 1933 and took a position at the Institute for Advanced Study at Princeton.",
+      "source_url": "https://www.princeton.edu/news/2019/03/14/albert-einstein-princeton-and-us-citizen",
+      "confidence": 100,
+      "hallucination_type": "NONE"
+    },
+    {
+      "sentence": "The Great Wall of China is visible from space with the naked eye.",
+      "status": "FALSE",
+      "reason": "This is a persistent myth; the Great Wall is not visible from Earth orbit or the Moon with the unaided human eye.",
+      "source_url": "https://www.nasa.gov/vision/earth/everydaylife/gwo.html",
+      "confidence": 100,
+      "hallucination_type": "FABRICATED_FACT"
+    },
+    {
+      "sentence": "Humans only use about 10 percent of their brain capacity.",
+      "status": "FALSE",
+      "reason": "The 10% brain myth is scientifically inaccurate; brain imaging shows that humans use virtually all parts of the brain over a 24-hour period.",
+      "source_url": "https://www.nih.gov/news-events/nih-research-matters/debunking-myth-that-humans-only-use-10-percent-their-brains",
+      "confidence": 100,
+      "hallucination_type": "FABRICATED_FACT"
+    },
+    {
+      "sentence": "Einstein passed away in 1955 in New Jersey at age 77.",
+      "status": "VERIFIED",
+      "reason": "Einstein died on April 18, 1955, in Princeton, New Jersey, at the age of 76 (he would have turned 77 later that year).",
+      "source_url": "https://www.einstein.info/biography/albert-einstein-death/",
+      "confidence": 98,
+      "hallucination_type": "NONE"
+    }
+  ],
+  "trust_score": 86,
+  "total_sentences": 7,
+  "false_count": 2,
+  "uncertain_count": 1,
+  "heatmap": {
+    "statistics": 10,
+    "historical": 10,
+    "scientific": 80,
+    "general": 10
+  }
+}

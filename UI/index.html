@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CraftWorld — The Ultimate Minecraft Experience</title>
+  <meta name="description"
+    content="CraftWorld — your official Minecraft universe hub. Explore, build, and survive in the world's greatest block game. Hackathon 2026." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&family=Oxanium:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ═══════ LOADER ═══════ -->
+  <div id="loader">
+    <div class="loader-wrap">
+      <div class="loader-logo-row">
+        <div class="lb grass-block"></div>
+        <div class="lb diamond-block"></div>
+        <div class="lb gold-block"></div>
+        <div class="lb redstone-block"></div>
+      </div>
+      <div class="loader-brand">CRAFTWORLD</div>
+      <div class="loader-subtitle">Loading your adventure...</div>
+      <div class="loader-bar-bg">
+        <div class="loader-bar-fill" id="loaderFill"></div>
+      </div>
+      <div class="loader-pct" id="loaderPct">0%</div>
+    </div>
+  </div>
+
+  <!-- ═══════ CURSOR GLOW ═══════ -->
+  <div id="cursorGlow"></div>
+
+  <!-- ═══════ NAVBAR (top, full-width like minecraft.net) ═══════ -->
+  <header id="navbar">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#hero" id="navLogoLink">
+        <div class="nav-logo-block grass-block"></div>
+        <span>CraftWorld</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#" class="nav-link" data-target="explore">Explore</a>
+        <a href="#" class="nav-link" data-target="features">Features</a>
+        <a href="#" class="nav-link" data-target="characters">Characters</a>
+        <a href="#" class="nav-link" data-target="gallery">Gallery</a>
+        <a href="#" class="nav-link" data-target="team">Team</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="mc-btn secondary sm" id="soundToggle" aria-label="Toggle sound">🔇</button>
+        <button class="mc-btn primary sm" data-target="contact" id="navCta">Play Now</button>
+      </div>
+      <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════ HERO ═══════ -->
+  <section id="hero">
+    <canvas id="threeCanvas"></canvas>
+    <!-- Wallpaper layer -->
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">⚡ HACKATHON 2026 — WORLD RECORD</div>
+      <h1 class="hero-h1">
+        <span class="h1-line">THE WORLD</span>
+        <span class="h1-line accent">AWAITS YOU</span>
+      </h1>
+      <p class="hero-p">Build mighty castles, mine rare diamonds, and survive the creeper's wrath. Your ultimate
+        Minecraft adventure starts here.</p>
+      <div class="hero-cta-row">
+        <button class="mc-btn primary lg" id="heroPlay"><span>▶ Enter World</span></button>
+        <button class="mc-btn ghost lg" id="heroLearn"><span>◈ Watch Trailer</span></button>
+      </div>
+      <div class="hero-stats-row">
+        <div class="hero-stat">
+          <div class="hs-val">140M+</div>
+          <div class="hs-lbl">Players</div>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <div class="hs-val">50+</div>
+          <div class="hs-lbl">Biomes</div>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <div class="hs-val">100+</div>
+          <div class="hs-lbl">Mobs</div>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <div class="hs-val">∞</div>
+          <div class="hs-lbl">Worlds</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero character -->
+    <div class="hero-char parallax-img" data-speed="0.06" id="heroChar">
+      <img src="Mine/—Pngtree—minecraft character with an axe_12245659.png" alt="Minecraft Hero with Axe"
+        draggable="false" style="object-fit: contain;" />
+    </div>
+
+    <!-- HUD -->
+    <div class="hero-hud">
+      <div class="hud-health">
+        <span class="hud-lbl">HP</span>
+        <div class="hearts-row">
+          <span class="hrt full">&#10084;</span><span class="hrt full">&#10084;</span>
+          <span class="hrt full">&#10084;</span><span class="hrt full">&#10084;</span>
+          <span class="hrt full">&#10084;</span><span class="hrt full">&#10084;</span>
+          <span class="hrt full">&#10084;</span><span class="hrt full">&#10084;</span>
+          <span class="hrt full">&#10084;</span><span class="hrt half">&#10084;</span>
+        </div>
+      </div>
+      <div class="hud-xp">
+        <span class="hud-lbl xp-lbl">XP</span>
+        <div class="xp-bar">
+          <div class="xp-fill" id="xpFill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <div class="scroll-arrow"></div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <!-- ═══════ EXPLORE BAND ═══════ -->
+  <div class="biome-band" id="explore">
+    <div class="biome-band-inner">
+      <div class="biome-item" onclick="scrollToSection('features')">
+        <div class="biome-icon">🌲</div>
+        <div class="biome-name">Survival Mode</div>
+      </div>
+      <div class="biome-item" onclick="scrollToSection('gallery')">
+        <div class="biome-icon">🏗️</div>
+        <div class="biome-name">Creative Mode</div>
+      </div>
+      <div class="biome-item">
+        <div class="biome-icon">🔥</div>
+        <div class="biome-name">Hardcore Mode</div>
+      </div>
+      <div class="biome-item">
+        <div class="biome-icon">🌊</div>
+        <div class="biome-name">Adventure Mode</div>
+      </div>
+      <div class="biome-item">
+        <div class="biome-icon">🎭</div>
+        <div class="biome-name">Spectator Mode</div>
+      </div>
+      <div class="biome-item" onclick="scrollToSection('contact')">
+        <div class="biome-icon">👥</div>
+        <div class="biome-name">Multiplayer</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ ABOUT / STORY ═══════ -->
+  <section id="about" class="section">
+    <div class="section-inner wide">
+      <div class="about-split">
+        <div class="about-text reveal">
+          <div class="section-eyebrow">OUR MISSION</div>
+          <h2 class="section-h2">Built Block<br /><span class="accent">by Block</span></h2>
+          <p class="about-desc">CraftWorld is a hackathon project that pushes the limits of web technology — merging
+            real-time 3D rendering, immersive design, and the legendary Minecraft universe into one extraordinary web
+            experience.</p>
+          <p class="about-desc">We were inspired by Minecraft's timeless promise: <em>a world with no boundaries</em>.
+            In 48 hours, we built ours.</p>
+          <div class="about-tags">
+            <span class="tag">⚡ Three.js</span>
+            <span class="tag">🎨 CSS3 Animations</span>
+            <span class="tag">🔊 Web Audio API</span>
+            <span class="tag">🌐 Vanilla JS</span>
+          </div>
+          <button class="mc-btn primary" id="aboutCta">Read Our Story</button>
+        </div>
+        <div class="about-visual reveal" style="--d:.2s">
+          <div class="about-img-wrap">
+            <img src="Mine/5848512684e35b574e745399.png" alt="Minecraft adventurer" class="about-img floating-deco"
+              style="object-fit: contain; transform: scale(1.2);" />
+            <div class="about-card floating-card">
+              <div class="fc-icon">⛏️</div>
+              <div class="fc-text">
+                <div class="fc-title">48 Hours</div>
+                <div class="fc-sub">Hackathon sprint</div>
+              </div>
+            </div>
+            <div class="about-card floating-card fc2">
+              <div class="fc-icon">💎</div>
+              <div class="fc-text">
+                <div class="fc-title">World-Class</div>
+                <div class="fc-sub">Design quality</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Stats bar -->
+      <div class="stats-bar reveal">
+        <div class="sbar-item">
+          <div class="sbar-num counter" data-target="9200">0</div>
+          <div class="sbar-label">Lines of Code</div>
+          <div class="sbar-bar">
+            <div class="sbar-fill" style="width:92%"></div>
+          </div>
+        </div>
+        <div class="sbar-item">
+          <div class="sbar-num counter" data-target="48">0</div>
+          <div class="sbar-label">Hours Crafted</div>
+          <div class="sbar-bar">
+            <div class="sbar-fill gold" style="width:78%"></div>
+          </div>
+        </div>
+        <div class="sbar-item">
+          <div class="sbar-num counter" data-target="6">0</div>
+          <div class="sbar-label">Team Members</div>
+          <div class="sbar-bar">
+            <div class="sbar-fill diamond" style="width:100%"></div>
+          </div>
+        </div>
+        <div class="sbar-item">
+          <div class="sbar-num counter" data-target="100">0</div>
+          <div class="sbar-label">Creativity %</div>
+          <div class="sbar-bar">
+            <div class="sbar-fill red" style="width:100%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FEATURES ═══════ -->
+  <section id="features" class="section dark-section">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-eyebrow">ENCHANTMENTS</div>
+        <h2 class="section-h2">Powered by <span class="accent">Magic</span></h2>
+        <p class="section-lead">Every pixel enchanted with world-class technology and design</p>
+      </div>
+
+      <!-- Big feature highlight -->
+      <div class="feat-highlight reveal">
+        <div class="feat-hl-text">
+          <div class="feat-hl-badge">✦ SIGNATURE FEATURE</div>
+          <h3 class="feat-hl-title">Live 3D Minecraft World</h3>
+          <p class="feat-hl-desc">A fully interactive Three.js terrain that generates procedurally, floats islands in
+            the sky, animates clouds, and lets you orbit, zoom and mine blocks — all in real-time inside a browser tab.
+          </p>
+          <div class="feat-hl-pills">
+            <span>Three.js r128</span><span>WebGL 2.0</span><span>Raycasting</span><span>OrbitControls</span>
+          </div>
+        </div>
+        <div class="feat-hl-visual">
+          <img src="Mine/580b57fcd9996e24bc43c2f4.png" alt="Minecraft tool"
+            class="feat-hl-img parallax-img floating-deco" data-speed="0.03"
+            style="object-fit: contain; transform: scale(1.1);" />
+          <div class="feat-hl-glow"></div>
+        </div>
+      </div>
+
+      <div class="features-grid">
+        <div class="feat-card reveal" style="--d:0s">
+          <div class="feat-card-icon diamond-block"></div>
+          <div class="feat-card-body">
+            <div class="feat-card-badge">Enchantment I</div>
+            <h4>Interactive 3D World</h4>
+            <p>Orbit, zoom, hover-highlight, and click-to-mine blocks in a procedurally generated terrain with floating
+              islands.</p>
+          </div>
+        </div>
+        <div class="feat-card reveal" style="--d:.1s">
+          <div class="feat-card-icon gold-block"></div>
+          <div class="feat-card-body">
+            <div class="feat-card-badge">Enchantment II</div>
+            <h4>Pixel-Perfect UI System</h4>
+            <p>Authentic Minecraft hotbar, inventory slots, health hearts, XP bar, and beveled block buttons —
+              pixel-perfect.</p>
+          </div>
+        </div>
+        <div class="feat-card reveal" style="--d:.2s">
+          <div class="feat-card-icon redstone-block"></div>
+          <div class="feat-card-body">
+            <div class="feat-card-badge">Enchantment III</div>
+            <h4>Silky Scroll Animations</h4>
+            <p>Every section fades, slides, and scales into view powered by the native Intersection Observer API.</p>
+          </div>
+        </div>
+        <div class="feat-card reveal" style="--d:.3s">
+          <div class="feat-card-icon emerald-block"></div>
+          <div class="feat-card-body">
+            <div class="feat-card-badge">Enchantment IV</div>
+            <h4>Animated Day/Night Cycle</h4>
+            <p>The sky shifts from deep night through dawn to dusk in a continuous 7-phase CSS gradient animation loop.
+            </p>
+          </div>
+        </div>
+        <div class="feat-card reveal" style="--d:.4s">
+          <div class="feat-card-icon wood-block"></div>
+          <div class="feat-card-body">
+            <div class="feat-card-badge">Enchantment V</div>
+            <h4>Web Audio Ambience</h4>
+            <p>Toggle the ambient sound engine — layered sine oscillators create an eerie, immersive Minecraft
+              atmosphere.</p>
+          </div>
+        </div>
+        <div class="feat-card reveal" style="--d:.5s">
+          <div class="feat-card-icon stone-block"></div>
+          <div class="feat-card-body">
+            <div class="feat-card-badge">Enchantment VI</div>
+            <h4>Fully Responsive</h4>
+            <p>Flawless across 320px mobile to 4K desktop. Every layout adapts gracefully through fluid CSS grids.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ CHARACTERS ═══════ -->
+  <section id="characters" class="section">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-eyebrow">MOB ROSTER</div>
+        <h2 class="section-h2">Meet the <span class="accent">Characters</span></h2>
+        <p class="section-lead">The iconic heroes, legends, and creatures of the Minecraft universe</p>
+      </div>
+
+      <div class="chars-grid">
+
+        <div class="char-card featured reveal" style="--d:0s">
+          <div class="char-img-wrap">
+            <img src="Mine/—Pngtree—minecraft character with an axe_12245659.png" alt="Steve"
+              class="char-img floating-deco hover-glow" style="object-fit: contain; transform: scale(1.1);" />
+          </div>
+          <div class="char-info">
+            <div class="char-badge hero-badge-tag">⭐ HERO</div>
+            <div class="char-name">Steve</div>
+            <div class="char-role">The Original Builder</div>
+            <p class="char-desc">The iconic protagonist of Minecraft. With his diamond pickaxe and endless creativity,
+              Steve can build anything imaginable from the ground up.</p>
+            <div class="char-stats">
+              <div class="cs-row"><span>Strength</span>
+                <div class="cs-bar">
+                  <div class="cs-fill" style="width:85%"></div>
+                </div><span>85</span>
+              </div>
+              <div class="cs-row"><span>Crafting</span>
+                <div class="cs-bar">
+                  <div class="cs-fill gold" style="width:99%"></div>
+                </div><span>MAX</span>
+              </div>
+              <div class="cs-row"><span>Survival</span>
+                <div class="cs-bar">
+                  <div class="cs-fill diamond" style="width:90%"></div>
+                </div><span>90</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="char-card reveal" style="--d:.1s">
+          <div class="char-img-wrap sm">
+            <img src="Mine/580b57fcd9996e24bc43c2f8.png" alt="Warrior" class="char-img floating-deco hover-glow"
+              style="animation-delay: 0.2s; object-fit: contain; transform: scale(1.2);" />
+          </div>
+          <div class="char-info">
+            <div class="char-badge legend-badge">⚔️ LEGEND</div>
+            <div class="char-name">The Warrior</div>
+            <div class="char-role">Emerald Sword Wielder</div>
+            <p class="char-desc">Armed with an enchanted emerald sword, this legendary fighter charges into battle with
+              unmatched ferocity.</p>
+            <div class="char-stats">
+              <div class="cs-row"><span>Combat</span>
+                <div class="cs-bar">
+                  <div class="cs-fill red" style="width:97%"></div>
+                </div><span>97</span>
+              </div>
+              <div class="cs-row"><span>Speed</span>
+                <div class="cs-bar">
+                  <div class="cs-fill emerald" style="width:88%"></div>
+                </div><span>88</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="char-card reveal" style="--d:.2s">
+          <div class="char-img-wrap sm">
+            <img src="Mine/580b57fcd9996e24bc43c2fc.png" alt="Steve Cool" class="char-img floating-deco hover-glow"
+              style="animation-delay: 0.4s; object-fit: contain; transform: scale(1.1);" />
+          </div>
+          <div class="char-info">
+            <div class="char-badge cool-badge">😎 ICONIC</div>
+            <div class="char-name">Cool Steve</div>
+            <div class="char-role">Style Champion</div>
+            <p class="char-desc">Why mine with a pickaxe when you can mine with swag? Cool Steve brings the vibes to
+              every adventure.</p>
+            <div class="char-stats">
+              <div class="cs-row"><span>Style</span>
+                <div class="cs-bar">
+                  <div class="cs-fill gold" style="width:100%"></div>
+                </div><span>MAX</span>
+              </div>
+              <div class="cs-row"><span>Charisma</span>
+                <div class="cs-bar">
+                  <div class="cs-fill diamond" style="width:95%"></div>
+                </div><span>95</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="char-card reveal" style="--d:.3s">
+          <div class="char-img-wrap sm mob-wrap">
+            <img src="Mine/580b57fcd9996e24bc43c2f0.png" alt="Pig Mob" class="char-img mob-img floating-deco hover-glow"
+              style="animation-delay: 0.6s; object-fit: contain; transform: scale(1.3);" />
+          </div>
+          <div class="char-info">
+            <div class="char-badge mob-badge">🐷 MOB</div>
+            <div class="char-name">The Pig</div>
+            <div class="char-role">Passive • Mount</div>
+            <p class="char-desc">A trusty companion found in grassy biomes. Put a saddle on it and grab a carrot on a
+              stick to ride into the sunset.</p>
+            <div class="char-stats">
+              <div class="cs-row"><span>Cuteness</span>
+                <div class="cs-bar">
+                  <div class="cs-fill emerald" style="width:100%"></div>
+                </div><span>MAX</span>
+              </div>
+              <div class="cs-row"><span>Danger</span>
+                <div class="cs-bar">
+                  <div class="cs-fill red" style="width:2%"></div>
+                </div><span>2</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="char-card reveal" style="--d:.4s">
+          <div class="char-img-wrap sm">
+            <img src="Mine/584bcfad2623fb7bc0d05881.png" alt="Master Builder" class="char-img floating-deco hover-glow"
+              style="animation-delay: 0.8s; object-fit: contain; transform: scale(1.2);" />
+          </div>
+          <div class="char-info">
+            <div class="char-badge builder-badge">🏗️ BUILDER</div>
+            <div class="char-name">Master Builder</div>
+            <div class="char-role">The Architect of Worlds</div>
+            <p class="char-desc">Holding his own head as a trophy, the Master Builder has conquered every biome and
+              constructed every wondrous structure.</p>
+            <div class="char-stats">
+              <div class="cs-row"><span>Building</span>
+                <div class="cs-bar">
+                  <div class="cs-fill diamond" style="width:100%"></div>
+                </div><span>MAX</span>
+              </div>
+              <div class="cs-row"><span>Vision</span>
+                <div class="cs-bar">
+                  <div class="cs-fill gold" style="width:98%"></div>
+                </div><span>98</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="char-card special reveal" style="--d:.5s">
+          <div class="char-img-wrap sm chicken-wrap">
+            <img src="Mine/580b57fcd9996e24bc43c2fb.png" alt="Special Character"
+              class="char-img mob-img floating-deco hover-glow"
+              style="animation-delay: 1.0s; object-fit: contain; transform: scale(1.15);" />
+          </div>
+          <div class="char-info">
+            <div class="char-badge rare-badge">✨ RARE</div>
+            <div class="char-name">Diamond Keeper</div>
+            <div class="char-role">Mystic Entity</div>
+            <p class="char-desc">A rare encounter in the deepest caves. Fast, unpredictable, and guards the most
+              precious resources in the overworld.</p>
+            <div class="char-stats">
+              <div class="cs-row"><span>Rarity</span>
+                <div class="cs-bar">
+                  <div class="cs-fill gold" style="width:99%"></div>
+                </div><span>99</span>
+              </div>
+              <div class="cs-row"><span>Speed</span>
+                <div class="cs-bar">
+                  <div class="cs-fill red" style="width:95%"></div>
+                </div><span>95</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ WALLPAPER SECTION (full-bleed) ═══════ -->
+  <section class="wallpaper-section" id="world">
+    <div class="wp-bg"></div>
+    <div class="wp-overlay"></div>
+    <div class="wp-content reveal">
+      <div class="section-eyebrow light">YOUR WORLD</div>
+      <h2 class="wp-h2">Every World is<br /><span class="accent">Unique</span></h2>
+      <p class="wp-p">With infinite procedural generation, no two Minecraft worlds are ever the same. Endless mountains,
+        oceans, deserts, jungles and the Nether wait to be discovered.</p>
+      <button class="mc-btn primary lg" data-target="gallery" id="wpBtn">◈ View Our Builds</button>
+    </div>
+  </section>
+
+  <!-- ═══════ GALLERY ═══════ -->
+  <section id="gallery" class="section dark-section">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-eyebrow">CREATIVE MODE</div>
+        <h2 class="section-h2">Our <span class="accent">Builds</span></h2>
+        <p class="section-lead">Projects crafted block by block over the hackathon sprint</p>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gal-card large reveal" style="--d:0s">
+          <div class="gal-thumb gt1">
+            <div class="gal-overlay"><span class="gal-cat">Architecture</span></div>
+          </div>
+          <div class="gal-body">
+            <div class="gal-badge featured">★ FEATURED BUILD</div>
+            <h3 class="gal-title">The Grand Citadel</h3>
+            <p class="gal-desc">An epic medieval fortress spanning 256×256 blocks with redstone-powered gates,
+              underground dungeons, and a lava moat.</p>
+            <div class="gal-footer">
+              <span class="gal-tag">🧱 Architecture</span>
+              <span class="gal-tag">⚡ Redstone</span>
+              <span class="gal-stat">👁 2.4K views</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="gal-card reveal" style="--d:.1s">
+          <div class="gal-thumb gt2">
+            <div class="gal-overlay"><span class="gal-cat">Nether</span></div>
+          </div>
+          <div class="gal-body">
+            <h3 class="gal-title">Nether Portal Hub</h3>
+            <p class="gal-desc">Multi-dimensional network linking 12 biomes.</p>
+            <div class="gal-footer"><span class="gal-tag">🔥 Nether</span><span class="gal-stat">👁 1.1K</span></div>
+          </div>
+        </div>
+
+        <div class="gal-card reveal" style="--d:.2s">
+          <div class="gal-thumb gt3">
+            <div class="gal-overlay"><span class="gal-cat">Sky</span></div>
+          </div>
+          <div class="gal-body">
+            <h3 class="gal-title">Sky Islands</h3>
+            <p class="gal-desc">Floating biome islands joined by rope bridges.</p>
+            <div class="gal-footer"><span class="gal-tag">🌤️ Sky</span><span class="gal-stat">👁 980</span></div>
+          </div>
+        </div>
+
+        <div class="gal-card reveal" style="--d:.3s">
+          <div class="gal-thumb gt4">
+            <div class="gal-overlay"><span class="gal-cat">Ocean</span></div>
+          </div>
+          <div class="gal-body">
+            <h3 class="gal-title">Underwater City</h3>
+            <p class="gal-desc">A full city beneath the waves, lit by sea lanterns.</p>
+            <div class="gal-footer"><span class="gal-tag">🌊 Ocean</span><span class="gal-stat">👁 870</span></div>
+          </div>
+        </div>
+
+        <div class="gal-card reveal" style="--d:.4s">
+          <div class="gal-thumb gt5">
+            <div class="gal-overlay"><span class="gal-cat">Pixel Art</span></div>
+          </div>
+          <div class="gal-body">
+            <h3 class="gal-title">Pixel Art Museum</h3>
+            <p class="gal-desc">Giant murals inside a purpose-built museum.</p>
+            <div class="gal-footer"><span class="gal-tag">🎨 Art</span><span class="gal-stat">👁 750</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ TEAM ═══════ -->
+  <section id="team" class="section">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-eyebrow">PLAYER LIST</div>
+        <h2 class="section-h2">The <span class="accent">Team</span></h2>
+        <p class="section-lead">A party of legendary adventurers who built this world</p>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card reveal" style="--d:0s">
+          <div class="team-avatar skin1">
+            <div class="av-head"></div>
+            <div class="av-body"></div>
+          </div>
+          <div class="team-name">Alex_Dev</div>
+          <div class="team-role">⚔️ Lead Architect</div>
+          <div class="team-desc">Full-stack wizard who conjured the Three.js world from nothing but math and willpower.
+          </div>
+          <div class="team-skills">
+            <span>Frontend</span><span>Three.js</span><span>WebGL</span>
+          </div>
+          <div class="team-badge diamond-badge">DIAMOND</div>
+        </div>
+
+        <div class="team-card reveal" style="--d:.1s">
+          <div class="team-avatar skin2">
+            <div class="av-head"></div>
+            <div class="av-body"></div>
+          </div>
+          <div class="team-name">Steve_UI</div>
+          <div class="team-role">🎨 Design Wizard</div>
+          <div class="team-desc">Pixel perfectionist responsible for every border, shadow, and animation on this page.
+          </div>
+          <div class="team-skills">
+            <span>UI/UX</span><span>CSS3</span><span>Motion</span>
+          </div>
+          <div class="team-badge gold-badge">GOLDEN</div>
+        </div>
+
+        <div class="team-card reveal" style="--d:.2s">
+          <div class="team-avatar skin3">
+            <div class="av-head"></div>
+            <div class="av-body"></div>
+          </div>
+          <div class="team-name">Notcha_BE</div>
+          <div class="team-role">⚙️ Backend Miner</div>
+          <div class="team-desc">Digs deep into systems architecture and API design like a miner hunting diamonds at
+            bedrock level.</div>
+          <div class="team-skills">
+            <span>Node.js</span><span>APIs</span><span>DB</span>
+          </div>
+          <div class="team-badge emerald-badge">EMERALD</div>
+        </div>
+
+        <div class="team-card reveal" style="--d:.3s">
+          <div class="team-avatar skin4">
+            <div class="av-head"></div>
+            <div class="av-body"></div>
+          </div>
+          <div class="team-name">Herobrine_AI</div>
+          <div class="team-role">🤖 AI &amp; ML Lead</div>
+          <div class="team-desc">Summons machine learning models and neural networks the same way Herobrine summons
+            terror.</div>
+          <div class="team-skills">
+            <span>ML/AI</span><span>Python</span><span>LLMs</span>
+          </div>
+          <div class="team-badge netherite-badge">NETHERITE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ CTA BANNER ═══════ -->
+  <div class="cta-banner">
+    <div class="cta-banner-bg"></div>
+    <div class="cta-banner-inner reveal">
+      <img src="Mine/580b57fcd9996e24bc43c302.png" alt="Minecraft character" class="cta-char parallax-img floating-deco"
+        data-speed="0.04" style="object-fit: contain; transform: scale(1.2);" />
+      <div class="cta-text">
+        <h2 class="cta-h2">Ready to <span class="accent">Start Building?</span></h2>
+        <p>Join the CraftWorld adventure. Your story starts with a single block.</p>
+      </div>
+      <button class="mc-btn primary lg" data-target="contact" id="ctaBannerBtn">⛏️ Start Crafting</button>
+    </div>
+  </div>
+
+  <!-- ═══════ CONTACT ═══════ -->
+  <section id="contact" class="section dark-section">
+    <div class="section-inner narrow">
+      <div class="contact-card reveal">
+        <div class="contact-top">
+          <div class="section-eyebrow">JOIN THE SERVER</div>
+          <h2 class="section-h2">Let's <span class="accent">Collaborate</span></h2>
+          <p class="contact-lead">Drop a message — no creepers, only good vibes and great ideas.</p>
+        </div>
+        <form class="mc-form" id="contactForm" onsubmit="handleForm(event)">
+          <div class="form-row">
+            <div class="fg">
+              <label class="mc-label" for="n">Player Name</label>
+              <input class="mc-input" id="n" type="text" placeholder="Enter your name..." required />
+            </div>
+            <div class="fg">
+              <label class="mc-label" for="e">Email Address</label>
+              <input class="mc-input" id="e" type="email" placeholder="your@email.com" required />
+            </div>
+          </div>
+          <div class="fg">
+            <label class="mc-label" for="s">Subject</label>
+            <input class="mc-input" id="s" type="text" placeholder="What's the topic?" required />
+          </div>
+          <div class="fg">
+            <label class="mc-label" for="m">Message</label>
+            <textarea class="mc-input mc-ta" id="m" rows="5" placeholder="Type your message..." required></textarea>
+          </div>
+          <button class="mc-btn primary full" type="submit"><span>📨 Send Message</span></button>
+        </form>
+        <div class="form-success" id="formOk">
+          ✅ Message delivered! Faster than an arrow from a skeleton.
+        </div>
+        <div class="contact-socials">
+          <a href="#" class="cs-link">🐦 Twitter</a>
+          <a href="#" class="cs-link">💼 LinkedIn</a>
+          <a href="#" class="cs-link">🐙 GitHub</a>
+          <a href="#" class="cs-link">📺 YouTube</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer id="footer">
+    <div class="grass-top"></div>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <div class="footer-logo">
+            <div class="fl-block grass-block"></div>
+            <span>CraftWorld</span>
+          </div>
+          <p class="footer-tagline">The world's best Minecraft-themed web experience. Built for Hackathon 2026.</p>
+          <div class="footer-social">
+            <a href="#" class="fs-icon" title="Twitter">𝕏</a>
+            <a href="#" class="fs-icon" title="GitHub">⊛</a>
+            <a href="#" class="fs-icon" title="Discord">◎</a>
+          </div>
+        </div>
+        <div class="footer-nav-col">
+          <div class="footer-nav-title">Explore</div>
+          <a href="#" id="fn1">Home</a>
+          <a href="#" id="fn2">About</a>
+          <a href="#" id="fn3">Features</a>
+          <a href="#" id="fn4">Gallery</a>
+        </div>
+        <div class="footer-nav-col">
+          <div class="footer-nav-title">Community</div>
+          <a href="#" id="fn5">Characters</a>
+          <a href="#" id="fn6">Team</a>
+          <a href="#" id="fn7">Contact</a>
+          <a href="#">Changelog</a>
+        </div>
+        <div class="footer-nav-col">
+          <div class="footer-nav-title">Hackathon</div>
+          <a href="#">Submission</a>
+          <a href="#">Tech Stack</a>
+          <a href="#">Source Code</a>
+          <a href="#">Documentation</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 CraftWorld. Built with ❤️ &amp; ⛏️ at Hackathon 2026 · No creepers harmed.</p>
+        <p class="footer-seed">🌍 World Seed: 2026-HACKATHON-CRAFTWORLD</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- HOTBAR (bottom navigation) -->
+  <nav id="hotbar">
+    <div class="hotbar-inner">
+      <div class="hs active" data-target="hero">
+        <div class="hs-block grass-block"></div><span>Home</span>
+        <div class="hs-num">1</div>
+      </div>
+      <div class="hs" data-target="about">
+        <div class="hs-block wood-block"></div><span>About</span>
+        <div class="hs-num">2</div>
+      </div>
+      <div class="hs" data-target="features">
+        <div class="hs-block diamond-block"></div><span>Features</span>
+        <div class="hs-num">3</div>
+      </div>
+      <div class="hs" data-target="characters">
+        <div class="hs-block gold-block"></div><span>Chars</span>
+        <div class="hs-num">4</div>
+      </div>
+      <div class="hs" data-target="gallery">
+        <div class="hs-block redstone-block"></div><span>Gallery</span>
+        <div class="hs-num">5</div>
+      </div>
+      <div class="hs" data-target="contact">
+        <div class="hs-block emerald-block"></div><span>Contact</span>
+        <div class="hs-num">6</div>
+      </div>
+    </div>
+  </nav>
+
+  <script src="main.js"></script>
+</body>
+
+</html>
