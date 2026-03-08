@@ -82,7 +82,7 @@ export function Navbar() {
             [ DEMO ]
           </button>
           <a
-            href="https://github.com"
+            href="https://github.com/TarunTheDev/truthlens-ai"
             target="_blank"
             rel="noreferrer"
             className="mc-button"
