@@ -2,6 +2,9 @@
 
 > A Minecraft-themed web application that uses Google's Gemini AI to detect hallucinations (false or misleading claims) in any text you paste in. Built at **AceHack 5.0**.
 
+🌐 **Live Demo:** https://truthlens-ai-nine.vercel.app
+📦 **GitHub:** https://github.com/TarunTheDev/truthlens-ai
+
 ---
 
 ## 🌍 What Is TruthLens?
