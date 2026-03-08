@@ -76,7 +76,7 @@ export function Footer() {
         {/* Right: Links */}
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <a
-            href="https://github.com"
+            href="https://github.com/TarunTheDev/truthlens-ai"
             target="_blank"
             rel="noreferrer"
             style={{
