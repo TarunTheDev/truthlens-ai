@@ -30,7 +30,7 @@ const MODELS = [
 ];
 
 async function callGemini(prompt: string, maxTokens = 1024): Promise<string> {
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  const apiKey = (import.meta.env.VITE_GEMINI_API_KEY || '').trim();
   if (!apiKey || apiKey === 'YOUR_API_KEY' || apiKey === 'your_key_here') {
     throw new Error('API_KEY_MISSING');
   }
@@ -77,7 +77,7 @@ export async function auditText(
   difficulty: DifficultyMode = 'SURVIVAL',
   domain: WorldDomain = null
 ): Promise<AuditResult> {
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  const apiKey = (import.meta.env.VITE_GEMINI_API_KEY || '').trim();
   if (!apiKey || apiKey === 'YOUR_API_KEY' || apiKey === 'your_key_here') {
     throw new Error('API_KEY_MISSING');
   }
