@@ -5,6 +5,7 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  VITE_GEMINI_API_KEY = "AIzaSyBuHlqNnm17Z-TAvb-2xipYW9HP8nMoIhg"
 
 # SPA fallback - all routes serve index.html
 [[redirects]]
